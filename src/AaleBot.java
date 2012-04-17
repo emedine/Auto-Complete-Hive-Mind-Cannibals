@@ -35,6 +35,8 @@ class AaleBot extends PApplet{
   
   int numPrey;  
   
+  boolean eatenAllPrey = false;
+  
   AaleBot(PGraphics pG,int ID) {
     
 	/// init bot profile
@@ -195,14 +197,34 @@ class AaleBot extends PApplet{
            for(int i=0;i<numPrey;i++){
              if(prey[i].selected){
                prey[i].myAlpha=0;
+               prey[i].isVisible = false; /// visible flag
                prey[i].selected = false;
-               // i=11;
+               
+               // println("Prey ID: " + i + " " + prey[i].isVisible);
+               // check prey toggle
+               checkPreyEaten();
+               
              }
            }
          follow = false;
+         
        }
      }
      
+  }
+ private void checkPreyEaten(){
+	  int theCounter = 0;
+	  for(int i=0;i<numPrey;i++){
+		  if(prey[i].isVisible == false){
+			  theCounter+=1;
+		  }
+		 
+	  }
+	  if (theCounter >= numPrey){
+		  println("EATEN ALL PREY FOR BOT" + theID);
+		  eatenAllPrey = true;
+	  }
+	  
   }
    
   // follow mouse

@@ -15,6 +15,8 @@ class Prey extends PApplet{
   
   int theID;
   //
+  boolean isVisible = true;
+  //
   BotProfile botProfile;
   
   String tName;
