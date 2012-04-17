@@ -143,6 +143,9 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		  
 		  /// start the search array\
 		  initMasterSearchArray();
+		  
+		  /// start search
+		  doSearch();
 		 
 	}
 	
@@ -225,6 +228,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 			 doSearch();
 			
 		 }
+		 
 		 showAutoFills();
 		 
 		// textFont(SanSerif);
@@ -239,7 +243,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	public void doSearch(){
 		/// println("search");
 		// parse for unicode
-		theTerm = myTextfield.getText();
+		// theTerm = myTextfield.getText();  /// we're using the master array now, not the text field data
 		theTerm = theTerm.replaceAll(" ", "%20");
 		if(isTwitterSearch){
 				doTwitterThread();
@@ -351,7 +355,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		String theInput = theEvent.controller().stringValue();
 		/// parse for unicode
 		// println("I HAVE TYPED: " + theInput);
-		theTerm=theInput;
+		// theTerm=theInput; /// we're using the term array now, not the entered text
 		twitSearch = theInput;
 		/// spawn prey instead
 		spawnAllPrey();
