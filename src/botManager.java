@@ -9,13 +9,14 @@ class botManager extends PApplet{
   float mY;
   
   int theID;
+  boolean hasEaten;
   
   String theName;
   
   PGraphics g;
   
-	// 
-	BotProfile botProfile;
+  // 
+  BotProfile botProfile;
   
   /// init constructor
   botManager(){
@@ -34,10 +35,21 @@ class botManager extends PApplet{
     aaleBot.update(theName);
     for(int i =0; i<5; i++){
       // prey[i].update();
+      /// 
       renderBot();
       // renderPrey(fillColor);
+      
     }
     
+  }
+  public boolean checkBot(){
+	  if(aaleBot.eatenAllPrey){
+		  // println("Bot" + theID + " : " + aaleBot.eatenAllPrey);
+	      return (true);
+	  } else {
+
+		  return (false);
+	  }  
   }
   
   
@@ -54,6 +66,8 @@ class botManager extends PApplet{
    
   void renderBot() {
     aaleBot.render();
+   
+    
   }
   
    

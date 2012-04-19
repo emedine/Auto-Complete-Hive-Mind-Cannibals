@@ -35,7 +35,7 @@ class AaleBot extends PApplet{
   
   int numPrey;  
   
-  boolean eatenAllPrey = false;
+  boolean eatenAllPrey = false; //// eaten all prey flag
   
   AaleBot(PGraphics pG,int ID) {
     
@@ -223,6 +223,7 @@ class AaleBot extends PApplet{
 	  if (theCounter >= numPrey){
 		  println("EATEN ALL PREY FOR BOT" + theID);
 		  eatenAllPrey = true;
+		  theCounter = 0;
 	  }
 	  
   }
@@ -246,14 +247,18 @@ class AaleBot extends PApplet{
   
   
   ///// add an x and y to a prey item-- if it exists it has an alpha
+  ///// this resets all prey and bot's eating state to visible
   void setPrey(float theX, float theY){
-     
+	  println("SET PREY: BOT" + theID);
+	 eatenAllPrey = false;
     for(int i=0; i<numPrey; i++){
       if(prey[i].myAlpha == 0){
         prey[i].x = theX;
         prey[i].y = theY;
         prey[i].myAlpha = 255;
+        prey[i].isVisible = true;
         i=numPrey+1;
+        
       }
     }
     // println("botX: " + theX + " botY" + theY);

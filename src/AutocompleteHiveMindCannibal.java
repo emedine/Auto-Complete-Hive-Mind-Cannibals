@@ -178,7 +178,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 			 botProfile.setColor(j, Math.round(rnd2*255));
 			 
 		 }
-		 
+		 //SET ALL PREY
 	}
 
 	 public void spawnAllPrey(){
@@ -202,13 +202,14 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		 theTerm = searchTermArray[searchTermCounter];
 		 
 	 }
+	/////////////////////////////////////
+	//////// DRAW //////////////////////////
 	 
-	//////// DRAW
 	public void draw() {
 		// run a for loop and see if all the prey is eaten
 		
 		/// if so, increment counter and do search
-		//
+		 int theCounter = 0;
 		 background(65,65,65);
 		 smooth();
 		  ///// draw the bots
@@ -221,13 +222,48 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 			 } else {
 				 theName = "";
 			 }
+			 //// update bot position, and movement
 			 theBotX[i].updateBot(theName); 
+			 
+			 /// check to see if the bot has eaten all prey
+			 boolean isFull;
+			 try {
+				isFull = theBotX[i].checkBot();
+				 if(isFull){
+					 theCounter +=1;
+					 // println("BOT" + i + " IS FULL");
+				 }
+					
+			 } catch (Exception e){
+				 println("Failed to return food check");
+			 }
+			 
+			 //// all bots are full
+			 //// increment search term and 
+			 //// redo search
+			 if (theCounter >= numBots){
+				  theCounter = 0;
+				  searchTermCounter +=1;
+				  if(searchTermCounter > searchTermArray.length){
+					  searchTermCounter =0 ;
+				  }
+				  println("EATEN ALL PREY FOR ALL BOTS");
+				  println("NEW SEARCH TERM IS: " +searchTermArray[searchTermCounter]);
+				  
+				  doSearch(); //// do a new search on the thread
+				  spawnAllPrey(); /// redo all prey
+			  }
+			 
+			 
 		 }
 		 // if typing, do an autofill search and populate the array
+		 /// disable for testing
+		 /*
 		 if (keyPressed == true) {
 			 doSearch();
 			
 		 }
+		 */
 		 
 		 showAutoFills();
 		 
@@ -244,7 +280,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		/// println("search");
 		// parse for unicode
 		// theTerm = myTextfield.getText();  /// we're using the master array now, not the text field data
-		theTerm = theTerm.replaceAll(" ", "%20");
+		theTerm = searchTermArray[searchTermCounter].replaceAll(" ", "%20");
 		if(isTwitterSearch){
 				doTwitterThread();
 			} else {
