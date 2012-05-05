@@ -20,11 +20,11 @@ class Tentacles{
 	
 	  
 	  L1 = new Leg(120, 4, .04f, 0, 0, 0, theID);
-	  L2 = new Leg(120, 6, .06f, 0, 0, 0, theID);
-	  L3 = new Leg(120, 8, .08f, 0, 0, 0, theID);
-	  L4 = new Leg(120, 10, .10f, 0, 0, 0, theID);
-	  L5 = new Leg(120, 12, .11f, 0, 0, 0, theID);
-	  L6 = new Leg(120, 14, .12f, 0, 0, 0, theID);
+	  L2 = new Leg(110, 6, .06f, 0, 0, 0, theID);
+	  L3 = new Leg(110, 8, .08f, 0, 0, 0, theID);
+	  L4 = new Leg(60, 10, .10f, 0, 0, 0, theID);
+	  L5 = new Leg(110, 12, .11f, 0, 0, 0, theID);
+	  L6 = new Leg(110, 14, .12f, 0, 0, 0, theID);
 	  /*
 	   * 
 	   

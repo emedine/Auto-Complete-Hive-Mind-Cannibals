@@ -9,9 +9,9 @@ import controlP5.*;
  * make backup // done
  * do "no internet" error fix
  * do autosearch timer-- get "why does, why won't, where is, how big, how small, when will, where can, who is, how do, is there"
- * cycle through each iteration
- * set up twitter call for data
- * do layout and instruction text
+ * cycle through each iteration /// done
+ * set up twitter call for data /// not for this fork
+ * do layout and instruction text /// not for this fork
  * fix fullscreen issues
  * */
 

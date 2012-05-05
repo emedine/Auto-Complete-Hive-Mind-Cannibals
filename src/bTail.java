@@ -25,12 +25,12 @@ class bTail extends PApplet{
   float xPos, yPos; // fill these value from bot class
   float speedCoefficient = 0.1f;
   
+  int rotationCounter = 0;
+  
 
   
   bTail(int ID){
 	theID = ID;
-	/// println("The TAIL ID: " + theID);
-	/// botProfile = new BotProfile();
 
     for (int n=0; n<numNodes; n++){
       Vector pos = new Vector(0,0);  
@@ -97,15 +97,28 @@ class bTail extends PApplet{
     }
     // println("THE GOTTEN COLOR IS: " + botProfile.getColor(theID));
     for (int i=1; i<numNodes; i++){
-      g.strokeWeight( (17-i)*(17-i)/40  );
+      g.strokeWeight( (25-i)*(25-i)/40  );
       g.stroke(fillColorMod, 123);
       // g.stroke(theFillColor, rnd);
       g.line(node[i].getX(), node[i].getY(), node[i-1].getX(), node[i-1].getY());
     }
     
     //draw head
-    g.fill(fillColorMod, rnd);
-    // rect(node[0].x,node[0].x, 60, 30);
-    g.ellipse(node[0].x, node[0].y, 15, 15);
+    g.strokeWeight(0);
+    g.fill(fillColorMod, 255);
+    // g.ellipse(node[0].x, node[0].y, 35, 35);
+   
+    g.pushMatrix();
+    g.translate(node[0].x-15,node[0].y-15);
+    g.rotate(rotationCounter);
+    g.rect(0, 0, 30, 30);
+    g.popMatrix();
+    // g.rotate(rotationCounter);
+    
+    if(rotationCounter >=360){
+    	rotationCounter = 0;
+    }
+    rotationCounter++;
+    
   }
 }
