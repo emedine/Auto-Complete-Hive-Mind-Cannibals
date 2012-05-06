@@ -1,19 +1,25 @@
 import processing.core.PApplet;
-import processing.core.PGraphics;
+import processing.core.*;
 // aalebot all movement code goes here
 // bot with its body parts it contols its movement
  
-class AaleBot extends PApplet{
+class AaleBot{
 	
   // 
   BotProfile botProfile;
+  //
+  PApplet pApp;
 		
   float xPos = 300;
   float yPos = 200; // position of the bot
   float speedX, speedY; // speed of the bot
+  float fSpeedX = 3.5f; /// follow speed of the bot
+  float fSpeedY = 4.5f; // follow speed of the bot
   float cx,cy; // stage centers
   float xOff,yOff; // random location
   float targX, targY;// target x and y
+  float angle; // relation of bot to prey
+ 
   
   int theta; // default degrees for antenna rotation
   
@@ -30,7 +36,6 @@ class AaleBot extends PApplet{
   ///
   String theName;
   
-  PGraphics g;
   /// array of prey for each aale
   Prey[] prey;
   
@@ -40,42 +45,44 @@ class AaleBot extends PApplet{
   
   boolean eatenAllPrey = false; //// eaten all prey flag
   
-  AaleBot(PGraphics pG,int ID) {
+  AaleBot(int ID) {
     
 	/// init bot profile
 	botProfile = BotProfile.getInstance();
+	pApp = botProfile.pApp;
+	
 	numPrey = botProfile.numPrey;
 	  
 	theID = ID;
 	/// println("AALE BOT ID: " + theID);
 	/// theFillColor = fillColor1;
-	g = pG;
     //create the prey
     prey = new Prey[numPrey];
     /// instead of an object
     /// make prey a simple shape with 
     /// x and y coordinates
-    prey[0] = new Prey(g, theID);
-    prey[1] = new Prey(g, theID);
-    prey[2] = new Prey(g, theID);
-    prey[3] = new Prey(g, theID);
-    prey[4] = new Prey(g, theID);
-    prey[5] = new Prey(g, theID);
-    prey[6] = new Prey(g, theID);
-    prey[7] = new Prey(g, theID);
-    prey[8] = new Prey(g, theID);
-    prey[9] = new Prey(g, theID);
+    prey[0] = new Prey(theID);
+    prey[1] = new Prey(theID);
+    prey[2] = new Prey(theID);
+    prey[3] = new Prey(theID);
+    prey[4] = new Prey(theID);
+    prey[5] = new Prey(theID);
+    prey[6] = new Prey(theID);
+    prey[7] = new Prey(theID);
+    prey[8] = new Prey(theID);
+    prey[9] = new Prey(theID);
     
     // this should make it wander more
     // but it doesn't
-    theFindX = random(6);
-    theFindY = random(6);
+    theFindX = pApp.random(6);
+    theFindY = pApp.random(6);
     
     // degrees rotation for antenna
+    // this relates to the angle somehow
     theta = 45;
     
-    cx = g.width/2;
-    cy = g.height/2;
+    cx = pApp.width/2;
+    cy = pApp.height/2;
     // targdt
     targX =0;
     targY =0;
@@ -112,25 +119,25 @@ class AaleBot extends PApplet{
      tail.xPos = xPos;
      tail.yPos = yPos;
      tail.update();
-     tenta.update(tail.xPos, tail.yPos, g);
+     tenta.update(tail.xPos, tail.yPos);
      /// make arm reach for prey
      theAntenna.display();
      theAntenna.move(tail.xPos, tail.yPos, 180);
      /// this draws the prey
-     renderPrey(theFillColor);
+     renderPrey();
      
   }
    
   void render() {
-    tail.render(theFillColor, g);
+    tail.render();
   }
    
   //Roam around the screen
   void roam(){
     xOff = xOff + 0.005f;
     yOff = yOff + 0.009f;
-    float vx =  noise(xOff) * 4;
-    float vy =  noise(yOff)* 3;
+    float vx =  pApp.noise(xOff) * 4;
+    float vy =  pApp.noise(yOff)* 3;
     //line(n, 0, n, height);
     // ellipse(n,n1,20,20);
    
@@ -141,8 +148,8 @@ class AaleBot extends PApplet{
     // xPos += 1; // noise(yOff);
     // yPos += 1; // noise(xOff);
     
-    xPos += noise(yOff);
-    yPos += noise(xOff);
+    xPos += pApp.noise(yOff);
+    yPos += pApp.noise(xOff);
     
     //// constrain to stage
     ///*
@@ -151,8 +158,8 @@ class AaleBot extends PApplet{
       // speedX *=-theFindX; //previous
       speedX *=-1;
     }
-    else if(xPos >= g.width){
-	    xPos = g.width;
+    else if(xPos >= pApp.width){
+	    xPos = pApp.width;
 	    speedX *=-1; // speedX *=-theFindX; // previous
     }
    
@@ -161,8 +168,8 @@ class AaleBot extends PApplet{
       speedY *=-1;
       // speedY *=-theFindY; // previous
     }
-    else if(yPos >= g.height){
-      yPos = g.height;
+    else if(yPos >= pApp.height){
+      yPos = pApp.height;
       speedY *=-1;
       // speedY *=-theFindY; // previous
     }
@@ -188,16 +195,16 @@ class AaleBot extends PApplet{
      } 
     
      if(follow) {
-       float speedX = 3.5f;
-       float speedY = 4.5f;
+       fSpeedX = 3.5f;
+       fSpeedY = 4.5f;
        float dx = targX - xPos;
        float dy = targY - yPos;
-       float dst = sqrt(sq(dx) + sq(dy));
-       float angle = atan2(dy,dx);
+       float dst = pApp.sqrt(pApp.sq(dx) + pApp.sq(dy));
+       float angle = pApp.atan2(dy,dx);
    
        if(dst>numPrey){
-          xPos += speedX * cos(angle);
-          yPos += speedY * sin(angle);
+          xPos += fSpeedX * pApp.cos(angle);
+          yPos += fSpeedY * pApp.sin(angle);
        }else{
     	   
     	   /// if prey's alpha is 0, then selected is false
@@ -228,7 +235,7 @@ class AaleBot extends PApplet{
 		 
 	  }
 	  if (theCounter >= numPrey){
-		  println("EATEN ALL PREY FOR BOT" + theID);
+		  pApp.println("EATEN ALL PREY FOR BOT" + theID);
 		  eatenAllPrey = true;
 		  theCounter = 0;
 	  }
@@ -238,6 +245,7 @@ class AaleBot extends PApplet{
   // follow mouse
   // disabled
   void followMouse(){
+	  /*
      float speedX = 1.5f;
      float speedY = 1.5f;
      float dx = mouseX - xPos;
@@ -250,13 +258,14 @@ class AaleBot extends PApplet{
         xPos += speedX * cos(angle);
         yPos += speedY * sin(angle);
      }
+     */
   }
   
   
   ///// add an x and y to a prey item-- if it exists it has an alpha
   ///// this resets all prey and bot's eating state to visible
-  void setPrey(float theX, float theY){
-	  println("SET PREY: BOT" + theID);
+public void setPrey(float theX, float theY){
+	  pApp.println("SET PREY: BOT" + theID);
 	 eatenAllPrey = false;
     for(int i=0; i<numPrey; i++){
       if(prey[i].myAlpha == 0){
@@ -273,11 +282,12 @@ class AaleBot extends PApplet{
   }
   // make sure prey is visible
   ///*
-  void renderPrey(int fillColor){
+/// draw prey, update its alpha, pass its id, give it text
+public void renderPrey(){
     for(int i=0; i<numPrey; i++){
         if(prey[i].myAlpha != 0){
 
-          prey[i].update(fillColor, theName);
+          prey[i].update(theName);
           i=numPrey+1;
         }
       }

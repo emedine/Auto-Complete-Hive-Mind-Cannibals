@@ -1,4 +1,4 @@
-import processing.core.PGraphics;
+import processing.core.*;
 import processing.core.PApplet;
 
 class botManager extends PApplet{
@@ -13,8 +13,6 @@ class botManager extends PApplet{
   
   String theName;
   
-  PGraphics g;
-  
   // 
   BotProfile botProfile;
   
@@ -22,12 +20,12 @@ class botManager extends PApplet{
   botManager(){
   }
   //create the aale bot here
-  void  createBot(PGraphics pg, int ID) {
+public void  createBot(int ID) {
 	theID = ID;
-	 println("Manager ID: " + theID);
+	println("create bot ID: " + theID);
 	 /// init p graphics
-	g = pg;
-    aaleBot = new AaleBot(g, theID);
+
+    aaleBot = new AaleBot(theID);
   }
    //
   void updateBot(String tName) {

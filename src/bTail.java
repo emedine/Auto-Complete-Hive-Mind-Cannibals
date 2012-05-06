@@ -9,7 +9,9 @@ class bTail extends PApplet{
   
   //
   int theID;
-//
+  int fillColor;
+  
+  PApplet pApp;
   BotProfile botProfile;
  
   /// make sure graphics exist
@@ -33,6 +35,10 @@ class bTail extends PApplet{
 	theID = ID;
     /// get an instance of a color profille
 	BotProfile botProfile = BotProfile.getInstance();
+	pApp = botProfile.pApp;
+	// get its color
+	fillColor = botProfile.getBotColor(ID);
+	
 	
     for (int n=0; n<numNodes; n++){
       Vector pos = new Vector(0,0);  
@@ -69,14 +75,8 @@ class bTail extends PApplet{
   }
  
   // function to draw bot
-  void render(int fillColor, PGraphics pg) {
-	g = pg;
-    theFillColor = fillColor;
-    
-    // take the preset color we passed from the wrangler
-    // add to two random colors
-    rnd = random(1);
-    rnd = rnd*125;
+  void render() {
+	
    
     //draw the bot
     int fillColorMod;
@@ -87,15 +87,15 @@ class bTail extends PApplet{
     }
     // println("THE GOTTEN COLOR IS: " + botProfile.getColor(theID));
     for (int i=1; i<numNodes; i++){
-      g.strokeWeight( (25-i)*(25-i)/40  );
-      g.stroke(fillColorMod, 123);
+    	pApp.strokeWeight( (25-i)*(25-i)/40  );
+    	pApp.stroke(fillColor);
       // g.stroke(theFillColor, rnd);
-      g.line(node[i].getX(), node[i].getY(), node[i-1].getX(), node[i-1].getY());
+    	pApp.line(node[i].getX(), node[i].getY(), node[i-1].getX(), node[i-1].getY());
     }
     
     //draw head
-    g.strokeWeight(0);
-    g.fill(fillColorMod, 255);
+    pApp.strokeWeight(0);
+    pApp.fill(fillColor);
     // g.ellipse(node[0].x, node[0].y, 35, 35);
    /*
     g.pushMatrix();

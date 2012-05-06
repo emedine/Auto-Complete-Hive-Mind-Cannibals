@@ -1,7 +1,11 @@
-import processing.core.PApplet;
-import processing.core.PGraphics;
+import processing.core.*;
 class Leg extends PApplet{
-      //// color changing values
+	
+  // 
+  BotProfile botProfile;
+  //
+  PApplet pApp;
+  //// color changing values
   int theFillColor;
   float rnd;
   float rnd1;
@@ -22,12 +26,14 @@ class Leg extends PApplet{
   
   //
   int theID;
-  BotProfile botProfile;
-  
-  PGraphics g;
+
    
   //constructor
   Leg (int numOfSegments, float ws, float inc, float r, float g, float b, int ID) {
+	/// init bot profile
+	botProfile = BotProfile.getInstance();
+	pApp = botProfile.pApp;
+		
 	theID = ID;
     total = numOfSegments;
     waveSize = ws;
@@ -37,8 +43,7 @@ class Leg extends PApplet{
     cb = b;
   }
    
-  void wriggle(float x, float y, PGraphics pG){
-	g = pG;
+public void wriggle(float x, float y){
     // theFillColor = fillColor;
     elasticity(x,y);
     movePoints();
@@ -92,11 +97,10 @@ class Leg extends PApplet{
   }
    
   void drawLine(){
-	    /// get an instance of a color profille
-	BotProfile botProfile = BotProfile.getInstance();
+
 	int fillColorMod;
     try{
-    fillColorMod = botProfile.getColor(theID);
+    fillColorMod = botProfile.getBotColor(theID);
     } catch (Exception ex){
     	fillColorMod = 255;
     }
@@ -105,11 +109,11 @@ class Leg extends PApplet{
       rnd = rnd*255;
       // fillColor = color((int) (rnd*255), (rnd1*65),0, 65);
       //fill((cr/total) * (total-i),0,0);
-      g.fill(fillColorMod, rnd);
+      pApp.fill(fillColorMod, rnd);
       //strokeWeight(1);
       // stroke(0);
-      g.noStroke();
-      g.ellipse(xPos[i], yPos[i], ((dist[i]*3.5f)/total) * (total - i), ((dist[i]*3.5f)/total) * (total - i));
+      pApp.noStroke();
+      pApp.ellipse(xPos[i], yPos[i], ((dist[i]*3.5f)/total) * (total - i), ((dist[i]*3.5f)/total) * (total - i));
       //ellipse(xPos[i], yPos[i], (30.5f/total) * (total - i), (30.5f/total) * (total - i));
     }
   }

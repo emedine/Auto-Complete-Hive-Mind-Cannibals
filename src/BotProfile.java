@@ -47,15 +47,20 @@ class BotProfile extends PApplet{
 	  theName = "Master";
 	  pApp = p;
   }
-  public void setColor(int i, int theFill){
+  public void setColor(int theColor){
 	  /// init our color and set its value in the array
-	  int y = i;
-	  fillColor1 = theFill;
-	  fillColors[y] = fillColor1;
+	  fillColor1 = theColor;
+	  BotColorArray.add(fillColor1);
 
-	  println("ID: " + i + " color: "  + fillColors[y]);
-	  /// fillColor1 = color((int) (rnd1*255), (rnd2*125),(rnd*125)); // color((int) (rnd1*255), (rnd2*255),(rnd*255)); 
-	  println(Arrays.toString(fillColors));
+	  println("ID: " + BotColorArray.size() + " color: "  + fillColor1);
+
+  }
+  
+  int getBotColor(int ID){
+	  theID = ID;
+	  int theColor = BotColorArray.get(theID);
+	  return (theColor);
+	  
   }
   
   int getColor(int ID) {

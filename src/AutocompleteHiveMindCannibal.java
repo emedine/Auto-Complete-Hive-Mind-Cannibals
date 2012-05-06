@@ -157,27 +157,22 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		  // BotProfile.setApplet(this);
 		  int j;
 		 for (int i= 0; i<numBots; i++){
-			 //// this color stuff should be in the bots themselves
+			 //// build color arrays in each bot
 			 rnd = random(1);
 			 rnd1 = random(1);
 			 rnd2 = random(1);
 			 
-			 // fillColor1 = color((int) (rnd1*255), (rnd2*255),(rnd*255)); // color((int) (rnd1*255), (rnd2*255),(rnd*255)); 
+			 fillColor1 = color((int) (rnd1*255), (rnd2*255),(rnd*255)); // color((int) (rnd1*255), (rnd2*255),(rnd*255)); 
+			 botProfile.setColor(fillColor1);
 			 // fillColor1 = color((int)(rnd1*255));
 			///  println("X : " + theX + " Y: " + theY + " : color : " + rnd2*255);
 			 theBotX[i] = new botManager();
-			 theBotX[i].createBot(g, i);
+			 theBotX[i].createBot(i);
 			 // int tempColor = int(rnd2*255);
 			 /// set a random color in the bot profile array
 			 
-			 ///// make the color style wrap if there's more than three bots
-			 if(i>2){
-				j = 0;
-				// j++;
-			 } else {
-				j = i; 
-			 }
-			 botProfile.setColor(j, Math.round(rnd2*255));
+			 
+			 
 			 
 		 }
 		 //SET ALL PREY

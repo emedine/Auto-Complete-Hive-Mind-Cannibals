@@ -39,14 +39,13 @@ class Tentacles{
   
   
    
-  void update(float x, float y, PGraphics pG) {
-	g = pG;
-    L1.wriggle(x,y, g);
-    L2.wriggle(x,y, g);
-    L3.wriggle(x,y, g);
-    L4.wriggle(x,y, g);
-    L5.wriggle(x,y, g);
-    L6.wriggle(x,y, g);
+  void update(float x, float y) {
+    L1.wriggle(x,y);
+    L2.wriggle(x,y);
+    L3.wriggle(x,y);
+    L4.wriggle(x,y);
+    L5.wriggle(x,y);
+    L6.wriggle(x,y);
     /*
     L7.wriggle(x,y, theFillColor, g);
     L8.wriggle(x,y, theFillColor, g);

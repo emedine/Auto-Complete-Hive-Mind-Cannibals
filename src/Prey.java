@@ -2,7 +2,7 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
 
-class Prey extends PApplet{
+class Prey{
   float x,y;
   float xoff = 0.0f;
   float yoff = 0.0f;
@@ -17,60 +17,61 @@ class Prey extends PApplet{
   //
   boolean isVisible = true;
   //
+  int fillColorMod;
+
+  //
   BotProfile botProfile;
   
   String tName;
   
-  PGraphics g;
+  PApplet pApp;
   
   /// fonts
   PFont SanSerif; /// font for display
   
   boolean selected = false; ///selected for hunt
-  Prey(PGraphics pG, int ID){
-
-	g = pG;
+  Prey(int ID){
+	pApp.println("prey color: " + theID);
+	  /// get an instance of a color profille
+    BotProfile botProfile = BotProfile.getInstance();
+    pApp = botProfile.pApp;
+	
 	theID = ID;
-    x = random(20,g.width);
-    y = random(20,g.height);
-    xoff = random(-5,5);
-    yoff = random(-4,2);
-    speedX = random(-1.5f,1.5f);
-    speedY = random(-1.5f,1.5f);
+	fillColorMod = botProfile.getBotColor(theID);
+    x = pApp.random(20,pApp.width);
+    y = pApp.random(20,pApp.height);
+    xoff = pApp.random(-5,5);
+    yoff = pApp.random(-4,2);
+    speedX = pApp.random(-1.5f,1.5f);
+    speedY = pApp.random(-1.5f,1.5f);
     
     // println("Prey x: " + x);
     // println("Prey y: " + y);
   }
    
-  void update(int fillColor, String theName){
-  int fillColorMod;
-  /// get an instance of a color profille
-	BotProfile botProfile = BotProfile.getInstance();
-    try{
-    fillColorMod = botProfile.getColor(theID);
-    } catch (Exception ex){
-    	fillColorMod = 255;
-    }
+public void update(String theName){
+    
+    
 	tName = theName;
-    myColor = fillColorMod;
+
     xoff = xoff + 0.05f;
     yoff = yoff + 0.09f;
-    float vx =  noise(xoff) * 2;
-    float vy =  noise(yoff)* 3;
+    float vx =  pApp.noise(xoff) * 2;
+    float vy =  pApp.noise(yoff)* 3;
     //line(n, 0, n, height);
     // g.ellipse(n,n1,20,20);
    
     x += speedX * vx;
     y += speedY * vy;
      
-    x += noise(xoff);
-    y += noise(yoff);
+    x += pApp.noise(xoff);
+    y += pApp.noise(yoff);
     if(x <=0){
       x = 0;
       speedX *=-1;
     }
-    else if(x >= g.width){
-      x = g.width;
+    else if(x >= pApp.width){
+      x = pApp.width;
       speedX *=-1;
     }
    
@@ -78,16 +79,16 @@ class Prey extends PApplet{
       y = 0;
       speedY *=-1;
     }
-    else if(y >= g.height){
-      y = g.height;
+    else if(y >= pApp.height){
+      y = pApp.height;
       speedY *=-1;
     }
  
      //draw
-    SanSerif = createFont("data/ArialMT-12.vlw", 14); /// font for display
-    g.fill(myColor, myAlpha);
-    g.textFont(SanSerif);
-    g.text(tName, x, y);
+    SanSerif = pApp.createFont("data/ArialMT-12.vlw", 14); /// font for display
+    pApp.fill(fillColorMod, myAlpha);
+    pApp.textFont(SanSerif);
+    pApp.text(tName, x, y);
     // println("Prey: " + tName);
     
 
