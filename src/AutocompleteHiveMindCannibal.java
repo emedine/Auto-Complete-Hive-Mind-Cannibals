@@ -10,6 +10,8 @@ import controlP5.*;
  * do "no internet" error fix
  * do autosearch timer-- get "why does, why won't, where is, how big, how small, when will, where can, who is, how do, is there"
  * cycle through each iteration /// done
+ * link google trends 
+ * fix how color works
  * set up twitter call for data /// not for this fork
  * do layout and instruction text /// not for this fork
  * fix fullscreen issues

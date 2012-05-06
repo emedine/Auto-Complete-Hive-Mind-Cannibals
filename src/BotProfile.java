@@ -1,4 +1,6 @@
 import java.util.Arrays;
+//java libraries
+import java.util.ArrayList;
 
 import processing.core.*;
 
@@ -16,10 +18,13 @@ class BotProfile extends PApplet{
   int theID;
   String theName="clone";
   
+  // ArrayList<int> BotColorArray = new ArrayList<int>();
+  ArrayList<Integer> BotColorArray = new ArrayList<Integer>();
+  
   int numPrey = 10; // this is the number of prey for each bot
   
   //
-/// make sure graphics exist
+/// locate applet
   PApplet pApp;
   
   private static BotProfile instance = new BotProfile();
@@ -28,13 +33,14 @@ class BotProfile extends PApplet{
 	  x = X;
 	  y = Y;
   }
- 
+  //// instantiate
   public static synchronized BotProfile getInstance() {
 	  if(instance == null) {
 	         instance = new BotProfile();
 	   }
 	   return instance;
   }
+ 
  
   public void botProfileInit(PApplet p){
 	  // fillColors = new int[4];
@@ -61,7 +67,8 @@ class BotProfile extends PApplet{
 	  
 	  switch (theID){
 
-	  //the choices go here - print the details
+	  // all the colors for all possible bots, pass the ID in to see what color you are!
+	  // should do this as an array instead
 	  case 0:
 		   fillColor2 = color((int) (rnd), (rnd),Math.round(fillColors[theID]));
 		   // fillColor2 = 255;

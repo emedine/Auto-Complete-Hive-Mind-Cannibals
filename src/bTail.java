@@ -31,7 +31,9 @@ class bTail extends PApplet{
   
   bTail(int ID){
 	theID = ID;
-
+    /// get an instance of a color profille
+	BotProfile botProfile = BotProfile.getInstance();
+	
     for (int n=0; n<numNodes; n++){
       Vector pos = new Vector(0,0);  
       node[n] = pos;
@@ -75,19 +77,7 @@ class bTail extends PApplet{
     // add to two random colors
     rnd = random(1);
     rnd = rnd*125;
-    // rnd1 = random(1);
-    // rnd1=rnd1*255;
-    // theFillColor = color((int) theFillColor, (rnd*255), (rnd1*255),65);
-    // switchID = random(1);
-    // fillColor = color((int) (rnd*255), (rnd1*65),0, 65);
-  
-    // int fillColorMod= color((int) (rnd*255), (rnd1*255), theFillColor); ///  use this one
-    
-    // int fillColorMod= color((int) theFillColor, (rnd*255), (rnd1*255),65);
-    // fillColor = fillColor((rnd1*255),0, 65);
-    
-    /// get an instance of a color profille
-	BotProfile botProfile = BotProfile.getInstance();
+   
     //draw the bot
     int fillColorMod;
     try{
@@ -107,13 +97,14 @@ class bTail extends PApplet{
     g.strokeWeight(0);
     g.fill(fillColorMod, 255);
     // g.ellipse(node[0].x, node[0].y, 35, 35);
-   
+   /*
     g.pushMatrix();
     g.translate(node[0].x-15,node[0].y-15);
     g.rotate(rotationCounter);
     g.rect(0, 0, 30, 30);
     g.popMatrix();
     // g.rotate(rotationCounter);
+     * */
     
     if(rotationCounter >=360){
     	rotationCounter = 0;

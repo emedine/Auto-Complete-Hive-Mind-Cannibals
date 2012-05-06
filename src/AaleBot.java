@@ -14,11 +14,14 @@ class AaleBot extends PApplet{
   float cx,cy; // stage centers
   float xOff,yOff; // random location
   float targX, targY;// target x and y
+  
+  int theta; // default degrees for antenna rotation
+  
   boolean follow = false;
-  // import arms, tentacle, and tail and do the magic
+  // import antennas, tentacle, and tail and do the magic
+  Antenna theAntenna;
   bTail tail;
   Tentacles tenta;
-  Arm theArm;
   
   int theFillColor;
   /// this randomness should adjust mvt
@@ -68,6 +71,8 @@ class AaleBot extends PApplet{
     theFindX = random(6);
     theFindY = random(6);
     
+    // degrees rotation for antenna
+    theta = 45;
     
     cx = g.width/2;
     cy = g.height/2;
@@ -84,7 +89,8 @@ class AaleBot extends PApplet{
     
     /// arm
     // there should be a bunch of these
-    theArm = new Arm(theID);
+    // constructor: x position, y position, initial theta, length
+    theAntenna = new Antenna(cx, cy, theta, 15);
     
     // tenta.initID(theID);
    
@@ -108,7 +114,8 @@ class AaleBot extends PApplet{
      tail.update();
      tenta.update(tail.xPos, tail.yPos, g);
      /// make arm reach for prey
-     theArm.update(targX, targY);
+     theAntenna.display();
+     theAntenna.move(tail.xPos, tail.yPos, 180);
      /// this draws the prey
      renderPrey(theFillColor);
      
