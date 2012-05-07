@@ -41,6 +41,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
     
     /// search array
     int searchTermCounter = 0;
+    // {"why does","why won't","where is","how big","how small","when will","where can","who is","how do","is there"}; 
     String searchTermArray[] = {"why does","why won't","where is","how big","how small","when will","where can","who is","how do","is there"}; 
     
     /// twitter data
@@ -109,6 +110,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	     //HEIGHT = 600;
 	    
 		 size(800,600);
+		 smooth();
 		// size(WIDTH,HEIGHT);
 		  
 		  /// do json query
@@ -204,11 +206,10 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	 
 	public void draw() {
 		// run a for loop and see if all the prey is eaten
-		
-		/// if so, increment counter and do search
-		 int theCounter = 0;
-		 background(65,65,65);
-		 smooth();
+		/// if so, increment search term counter and do search
+		 int hungerCounter = 0;
+		 background(0);
+		 
 		  ///// draw the bots
 		 for (int i= 0; i<numBots; i++){
 			 /// check for name
@@ -219,15 +220,16 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 			 } else {
 				 theName = "";
 			 }
-			 //// update bot position, and movement
+			 //// update bot position, name, and movement
 			 theBotX[i].updateBot(theName); 
 			 
 			 /// check to see if the bot has eaten all prey
 			 boolean isFull;
 			 try {
 				isFull = theBotX[i].checkBot();
+				/// if so, increment counter
 				 if(isFull){
-					 theCounter +=1;
+					 hungerCounter ++;
 					 // println("BOT" + i + " IS FULL");
 				 }
 					
@@ -235,17 +237,22 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 				 println("Failed to return food check");
 			 }
 			 
-			 //// all bots are full
-			 //// increment search term and 
+			 //// if counter == number of bots, then all bots are full
+			 //// reset hunger counter
+			 //// increment search term counter and 
 			 //// redo search
-			 if (theCounter >= numBots){
-				  theCounter = 0;
-				  searchTermCounter +=1;
-				  if(searchTermCounter > searchTermArray.length){
-					  searchTermCounter =0 ;
+			 if (hungerCounter >= numBots){
+				  hungerCounter = 0;
+				  searchTermCounter ++;
+				  if(searchTermCounter >= searchTermArray.length){
+					  searchTermCounter = 0;
 				  }
+				  try{
 				  println("EATEN ALL PREY FOR ALL BOTS");
 				  println("NEW SEARCH TERM IS: " +searchTermArray[searchTermCounter]);
+				  } catch (Exception e){
+					  println("reset search error: " + e);
+				  }
 				  
 				  doSearch(); //// do a new search on the thread
 				  spawnAllPrey(); /// redo all prey
@@ -253,20 +260,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 			 
 			 
 		 }
-		 // if typing, do an autofill search and populate the array
-		 /// disable for testing
-		 /*
-		 if (keyPressed == true) {
-			 doSearch();
-			
-		 }
-		 */
-		 
 		 showAutoFills();
-		 
-		// textFont(SanSerif);
-		// text("I AM TEST TEXT", 15, 30); 
-
 		
 	}
 	//// end draw
