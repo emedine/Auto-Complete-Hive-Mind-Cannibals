@@ -4,7 +4,6 @@ import processing.core.PGraphics;
 
 class Tentacles{
   int theID;
-  PGraphics g;
   int theFillColor;
   
   Leg L1;
@@ -52,6 +51,6 @@ class Tentacles{
     L9.wriggle(x,y, theFillColor, g);
     L10.wriggle(x,y, theFillColor, g);
     */
-    mea.move(g);
+    mea.move();
   }
 }

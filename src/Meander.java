@@ -1,20 +1,27 @@
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
-class Meander extends PApplet{
+class Meander{
   float left =  50, right = 550, bottom = 50, top = 550;
   float xMax = 6, yMax = 6;
   float xPos = -10, yPos = 300;
   float xLimit, yLimit, xSpeed, ySpeed, xDelta, yDelta;
   double dRandom;
   
-  PGraphics g;
+  // 
+  BotProfile botProfile;
+  //
+  PApplet pApp;
    
   //constructor
-  Meander(){}
+  Meander(){
+	/// init bot profile
+		botProfile = BotProfile.getInstance();
+		pApp = botProfile.pApp;
+	  
+  }
    
-  void move(PGraphics pG){
-	g = pG;
+  void move(){
     left = 50;
     right = 550;
     bottom = 50;
@@ -24,19 +31,19 @@ class Meander extends PApplet{
     if (xPos < left){
     // dRandom = g.random(10,30);
     // dRandom = g.random(0,1);
-     xDelta = random(0,1);
+     xDelta = pApp.random(0,1);
     } else if (xPos > right){
-      xDelta = random (-1,0);
+      xDelta = pApp.random (-1,0);
     } else {
-      xDelta = random(-1,1);
+      xDelta = pApp.random(-1,1);
     }
      
     if (yPos < bottom){
-      yDelta = random(0,1);
+      yDelta = pApp.random(0,1);
     } else if (yPos > top){
-      yDelta = random (-1,0);
+      yDelta = pApp.random (-1,0);
     } else {
-      yDelta = random(-1,1);
+      yDelta = pApp.random(-1,1);
     }
      
     xSpeed = xSpeed + xDelta;

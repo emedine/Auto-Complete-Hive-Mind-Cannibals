@@ -17,7 +17,19 @@ import controlP5.*;
  * fix fullscreen issues
  * */
 
+
+
 public class AutocompleteHiveMindCannibal extends PApplet{
+	
+	
+	// application ready= full screen
+	///*
+	public static void main(String args[]){
+		
+		PApplet.main(new String [] {"--present", "AutocompleteHiveMindCannibal"});
+		
+	}
+	//*/
 	
 	// 
 	BotProfile botProfile;
@@ -63,7 +75,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	
 	
 	// number bots
-	int numBots = 5;
+	int numBots = 3;
 	// init autofill objects array
 	String[] theAutoFill;
 	/// init bot manager array
@@ -75,14 +87,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	int numPrey; /// this will change depending on the prey category
 	
 	
-	/// set up full screen
-	/*
-	public static void main(String args[]){
-		
-		PApplet.main(new String [] {"--present", "src.AutocompleteHiveMindCannibal"});
-		
-	}
-	*/
+	
 
 	public void setup() {
 		
@@ -103,15 +108,18 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	       }
 		 }else {
 	     
+	     // WIDTH = 1440;
+	    //  HEIGHT = 900;
+	     
 	     WIDTH = 800;
 	     HEIGHT = 600;
 	     }
 	     //WIDTH = 800;
 	     //HEIGHT = 600;
 	    
-		 size(800,600);
+		 // size(800,600);
 		 smooth();
-		// size(WIDTH,HEIGHT);
+		 size(WIDTH,HEIGHT);
 		  
 		  /// do json query
 		  /// API key: AIzaSyDYnzs0NBMgIvI0otRTO-M7UvtmtdzpYxE
@@ -143,7 +151,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		  // start search
 		  // doSearch();
 		  /// build text fields
-		  buildInputText();
+		  // buildInputText();
 		  
 		  /// start the search array\
 		  initMasterSearchArray();
@@ -398,19 +406,20 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 			//// println("show autofill pos 0" + af0);
 			 for (int i= 0; i<numBots; i++){
 				 if(theAutoFill[i] != null || theAutoFill[i] != ""){
-					 String txtFldTxt = myTextfield.getText();
-					 float newTxtPos = txtFldTxt.length() *8;
+					 // String txtFldTxt = myTextfield.getText();
+					 /// float newTxtPos = txtFldTxt.length() *8;
 					 /// remove typed text from results
 					 String tmpString = "";
+					 /*
 					 if(isTwitterSearch != true){
 						 tmpString = theAutoFill[i].replace(txtFldTxt,"");
 					 }
-					 
+					 */
 					 int newTxtPosY = txtPosY + i * 15;
 					 fill(255,255,255);
 					 SanSerif = createFont("DIN-Regular-16.vlw", 12); /// font for display
 					 textFont(SanSerif);
-				     text(tmpString, txtPosX + newTxtPos + 5, newTxtPosY + 40);
+				     text(tmpString, txtPosX + txtPosX + 5, newTxtPosY + 40);
 				 }
 				 
 			 }

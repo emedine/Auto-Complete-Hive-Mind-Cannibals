@@ -2,13 +2,30 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GraphicsDevice;
 
 import processing.core.*;
-import processing.opengl.*;
-import javax.media.opengl.GL;
-/// import processing.core.Graphics;
-/// import org.json.*;
+
 import controlP5.*;
 
+/* TO DO
+ * make backup // done
+ * do "no internet" error fix
+ * do autosearch timer-- get "why does, why won't, where is, how big, how small, when will, where can, who is, how do, is there"
+ * cycle through each iteration /// done
+ * link google trends 
+ * fix how color works
+ * set up twitter call for data /// not for this fork
+ * do layout and instruction text /// not for this fork
+ * fix fullscreen issues
+ * */
+
+
+
 public class AutocompleteHiveMindCannibal extends PApplet{
+	
+public static void main(String args[]){
+		
+		PApplet.main(new String [] {"--present", "AutocompleteHiveMindCannibal"});
+		
+	}
 	
 	// 
 	BotProfile botProfile;
@@ -19,7 +36,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	float rnd;
 	float rnd1;
 	float rnd2;
-	// TEXT FOR JSON QUERY
+	// TEXT FOR JSON GOOGLE SEARCH
 	String hasData= "no data";
 	String theName = "";
 	String textValue = "";
@@ -28,8 +45,20 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	int theLimit = 5; // term limit
 	/// XML STUFF
     XML xml;
+    String trendsPath = "http://www.google.com/trends/hottrends/atom/hourly"; /// query for top twenty google searches
     
-	/// screen sizes;
+    /// search array
+    int searchTermCounter = 0;
+    // {"why does","why won't","where is","how big","how small","when will","where can","who is","how do","is there"}; 
+    String searchTermArray[] = {"why does","why won't","where is","how big","how small","when will","where can","who is","how do","is there"}; 
+    
+    /// twitter data
+  	String userAddress = "@emaqdesign"; /// default user tweets
+  	String userStatus = "http://twitter.com/statuses/user_timeline/" + userAddress + ".json?count=5";
+  	String twitSearch = "zombie apocalypse";
+	
+	// color, size, and bground parame
+	int theColor=color((int) (12), (12),(165)); /// colors for text
 	int WIDTH;
 	int HEIGHT;
 	
@@ -38,39 +67,23 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	ControlFont SerifFont;
 	int txtPosY = WIDTH + 50; /// position of text field
 	int txtPosX = HEIGHT + 50;
-	int theColor=color((int) (12), (12),(165)); /// colors for text
-	// PFont theFont;
-	// theFont = createFont("ArialMT-12",14);
 	PFont SanSerif; /// font for auto fill display
-	/*
-	 * PFont font;
-	// Name system font and reqd size
-	font = createFont("Arial",14);
-	textFont(font);
-	text("word", 15, 30); 
-	*/
-	// number categories
-	int numBots = 3;
+	
+	
+	// number bots
+	int numBots = 5;
 	// init autofill objects array
 	String[] theAutoFill;
 	/// init bot manager array
 	botManager[] theBotX;
-	
-	/// query thread
 
 	Boolean isFullScreen = false;
+	Boolean isTwitterSearch = false;
 	
-	int numPrey = 10; /// this will change depending on the prey category
+	int numPrey; /// this will change depending on the prey category
 	
 	
-	/// set up full screen
-	/*
-	public static void main(String args[]){
-		
-		PApplet.main(new String [] {"--present", "src.AutocompleteHiveMindCannibal"});
-		
-	}
-	*/
+	
 
 	public void setup() {
 		
@@ -98,6 +111,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	     //HEIGHT = 600;
 	    
 		 size(800,600);
+		 smooth();
 		// size(WIDTH,HEIGHT);
 		  
 		  /// do json query
@@ -108,8 +122,10 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		  /// JSON query: http://www.freebase.com/private/suggest?prefix=" + queryTerm + "&limit=5";
 		  // String theQuery="http://www.freebase.com/private/suggest?prefix="; /// actual query string
 		  
-
-		  // botProfile.botProfileInit();
+		 /// init bot profile
+		  botProfile = BotProfile.getInstance();
+		  botProfile.botProfileInit(this);
+		  numPrey = botProfile.numPrey;
 		 
 		  // instantiate bot manager and auto fill text arrays
 		  theBotX = new botManager[numBots];
@@ -128,37 +144,45 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		  // start search
 		  // doSearch();
 		  /// build text fields
-		  buildInputText();
+		  // buildInputText();
+		  
+		  /// start the search array\
+		  initMasterSearchArray();
+		  
+		  /// start search
+		  doSearch();
 		 
 	}
 	
 	 //  SPAWN BOTS AND PREY
 	private void spawnBots(){
-		//// init the bot color profile
-		  BotProfile botProfile = BotProfile.getInstance();
-
+		
+		  // BotProfile.setApplet(this);
+		  int j;
 		 for (int i= 0; i<numBots; i++){
-			 //// this color stuff should be in the bots themselves
+			 //// build color arrays in each bot
 			 rnd = random(1);
 			 rnd1 = random(1);
 			 rnd2 = random(1);
 			 
-			 // fillColor1 = color((int) (rnd1*255), (rnd2*255),(rnd*255)); // color((int) (rnd1*255), (rnd2*255),(rnd*255)); 
+			 fillColor1 = color((int) (rnd1*255), (rnd2*255),(rnd*255)); // color((int) (rnd1*255), (rnd2*255),(rnd*255)); 
+			 botProfile.setColor(fillColor1);
 			 // fillColor1 = color((int)(rnd1*255));
-			 float theX = random (0,800);
-			 float theY = random (0,600);
 			///  println("X : " + theX + " Y: " + theY + " : color : " + rnd2*255);
 			 theBotX[i] = new botManager();
-			 theBotX[i].createBot(g, i);
+			 theBotX[i].createBot(i);
 			 // int tempColor = int(rnd2*255);
 			 /// set a random color in the bot profile array
-			 botProfile.setColor(i, Math.round(rnd2*255));
+			 
+			 
+			 
 			 
 		 }
-		 
+		 //SET ALL PREY
 	}
 
 	 public void spawnAllPrey(){
+		 println("SPAWNING PREY");
 		 for (int i= 0; i<numBots; i++){
 			 //// create prey for each bot
 			 for (int y=0; y<numPrey; y++){
@@ -172,30 +196,72 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	 }
 	 ////// end spawn bots and prey
 	 
-	//////// DRAW
+	 
+	 //// INIT MASTER ARRAY
+	 private void initMasterSearchArray(){
+		 theTerm = searchTermArray[searchTermCounter];
+		 
+	 }
+	/////////////////////////////////////
+	//////// DRAW //////////////////////////
+	 
 	public void draw() {
-		 background(0,0,0);
-		 smooth();
+		// run a for loop and see if all the prey is eaten
+		/// if so, increment search term counter and do search
+		 int hungerCounter = 0;
+		 background(0);
+		 
 		  ///// draw the bots
 		 for (int i= 0; i<numBots; i++){
 			 /// check for name
+			 /// println("PREY NAME: " + theAutoFill[i]);
 			 if(theAutoFill[i] != null){
 				 theName = theAutoFill[i];
+				 // println("prey name: " + theAutoFill[i]);
 			 } else {
 				 theName = "";
 			 }
+			 //// update bot position, name, and movement
 			 theBotX[i].updateBot(theName); 
-		 }
-		 // if typing, do an autofill search and populate the array
-		 if (keyPressed == true) {
-			 doSearch();
-			
+			 
+			 /// check to see if the bot has eaten all prey
+			 boolean isFull;
+			 try {
+				isFull = theBotX[i].checkBot();
+				/// if so, increment counter
+				 if(isFull){
+					 hungerCounter ++;
+					 // println("BOT" + i + " IS FULL");
+				 }
+					
+			 } catch (Exception e){
+				 println("Failed to return food check");
+			 }
+			 
+			 //// if counter == number of bots, then all bots are full
+			 //// reset hunger counter
+			 //// increment search term counter and 
+			 //// redo search
+			 if (hungerCounter >= numBots){
+				  hungerCounter = 0;
+				  searchTermCounter ++;
+				  if(searchTermCounter >= searchTermArray.length){
+					  searchTermCounter = 0;
+				  }
+				  try{
+				  println("EATEN ALL PREY FOR ALL BOTS");
+				  println("NEW SEARCH TERM IS: " +searchTermArray[searchTermCounter]);
+				  } catch (Exception e){
+					  println("reset search error: " + e);
+				  }
+				  
+				  doSearch(); //// do a new search on the thread
+				  spawnAllPrey(); /// redo all prey
+			  }
+			 
+			 
 		 }
 		 showAutoFills();
-		 
-		// textFont(SanSerif);
-		// text("I AM TEST TEXT", 15, 30); 
-
 		
 	}
 	//// end draw
@@ -205,35 +271,64 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	public void doSearch(){
 		/// println("search");
 		// parse for unicode
-		theTerm = myTextfield.getText();
-		theTerm = theTerm.replaceAll(" ", "%20");
-		// /*
-		// add term to search and do the json query
-		if(theTerm != null){
-			/// this calls to an external thread
-			thread("doQueryThread");
-			
+		// theTerm = myTextfield.getText();  /// we're using the master array now, not the text field data
+		theTerm = searchTermArray[searchTermCounter].replaceAll(" ", "%20");
+		if(isTwitterSearch){
+				doTwitterThread();
+			} else {
+			// add term to search and do the json query
+			if(theTerm != null){
+				/// this calls to an external thread
+				thread("doQueryThread");
+				// doTwitterThread();
+				
+			}
+		}
+		
+	}
+	public void doTwitterThread(){
+		twitSearch = twitSearch.replaceAll(" ", "%20");
+		/// this is for user tweets
+		/// String request = "http://twitter.com/statuses/user_timeline/" + searchTerm + ".xml?count=" + String(searchLength)); /// gets particular user tweets
+		/// this is for searchterms	
+		String request = "http://search.twitter.com/search.rss?q=%23" + twitSearch;
+		String theXML[] = loadStrings(request);
+		/// PARSE XML
+		/// get rid of whitespace
+		String theXMLString = join(theXML, "").replace(">  <", "><");
+		//// get the results
+		XML xmlReturn = XML.parse(theXMLString);
+		XML resultNode = xmlReturn.getChild(0);
+		try{
+			int twitNodeMin = 6; /// first couple nodes in twitter return are useless, so uset twitnodemin to jump to good data
+			for (int i = twitNodeMin; i < numBots + twitNodeMin; i++) {
+				 XML kid = resultNode.getChild(i);
+				    /// XML subNode = kid.getChild(1);
+				 String check = kid.getContent();
+				 //// populate the entries of the autoFillArray that 
+				 /// correspond with the bot fill array
+			     theAutoFill[i - twitNodeMin] = check;
+				 println(theAutoFill[i]);
+				 // println("value1: " + resultNode.getChild(0).getContent());
+			   
+			  }
+		} catch (Exception ex){
+			println("no data: " + ex);
+			hasData = "no data";
 		}
 		
 	}
 	
+	
 	/// this is a separate thread just for doing a query
 	public void doQueryThread(){
-		/// returns poorly formed json
-		// String request = "http://suggestqueries.google.com/complete/search?client=firefox&q=" + theTerm;
-		
+
 		/// returns xml, but the flavor of returns is really good
 		// String request = "https://www.googleapis.com/complete/v1?key=AIzaSyDYnzs0NBMgIvI0otRTO-M7UvtmtdzpYxE&cx=017576662512468239146:omuauf_lfve&q=" + theTerm;
 		String request = "http://clients5.google.com/complete/search?hl=en&q=" + theTerm + "&client=ie8&inputencoding=UTF-8&outputencoding=hjson";
-		
-		/// this one works, but the results are lame
-		/// String request = "http://www.freebase.com/private/suggest?prefix=" + theTerm + "&limit=5"; //  + theTerm;
-
 		String theXML[] = loadStrings(request);
-		// loadStrings( request );
-		
+
 		/// PARSE XML
-		
 		/// get rid of whitespace
 		String theXMLString = join(theXML, "").replace(">  <", "><");
 		try{
@@ -260,9 +355,6 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 			println("XML: " + ex);
 			hasData = "no data";
 		}
-
-	 
-		
 	}
 
 	 //create prey object with mouse clicks
@@ -283,12 +375,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		 myTextfield.setColorBackground(color(125,125,125,125));
 		 controlP5.setControlFont(SanSerif);
 		 myTextfield.keepFocus(true);
-		 // myTextfield.upperCase(true);
-		 /// controlP5.addTextfield("autoFill",0,40,200,20);
-		 /*
-		  *   b.captionLabel().setControlFont(font);
-		  b.captionLabel().setControlFontSize(80);
-		  */
+		
 	}
 	
 	//// activates on press "return"
@@ -296,7 +383,8 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		String theInput = theEvent.controller().stringValue();
 		/// parse for unicode
 		// println("I HAVE TYPED: " + theInput);
-		theTerm=theInput;
+		// theTerm=theInput; /// we're using the term array now, not the entered text
+		twitSearch = theInput;
 		/// spawn prey instead
 		spawnAllPrey();
 		// doSearch();
@@ -305,35 +393,36 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	//// this shows the autofill info below the text box
 	public void showAutoFills(){
 		String af0 = theAutoFill[0];
-		/// myTextfield.setText(hasData);
-		 // SanSerif = createFont("DIN-Regular-16.vlw", 12); /// font for display
-		 textFont(SanSerif);
 		// 
 		if(af0 != null){
 			
 			//// println("show autofill pos 0" + af0);
 			 for (int i= 0; i<numBots; i++){
 				 if(theAutoFill[i] != null || theAutoFill[i] != ""){
-					 String txtFldTxt = myTextfield.getText();
-					 float newTxtPos = txtFldTxt.length() *8;
+					 // String txtFldTxt = myTextfield.getText();
+					 /// float newTxtPos = txtFldTxt.length() *8;
 					 /// remove typed text from results
-					 String tmpString = theAutoFill[i].replace(txtFldTxt,"");
+					 String tmpString = "";
+					 /*
+					 if(isTwitterSearch != true){
+						 tmpString = theAutoFill[i].replace(txtFldTxt,"");
+					 }
+					 */
 					 int newTxtPosY = txtPosY + i * 15;
 					 fill(255,255,255);
 					 SanSerif = createFont("DIN-Regular-16.vlw", 12); /// font for display
 					 textFont(SanSerif);
-				     text(tmpString, txtPosX + newTxtPos + 5, newTxtPosY + 40);
-				     
-				    
-				     // text(theAutoFill[i], txtPosX + 20, txtPosY + 50);
+				     text(tmpString, txtPosX + txtPosX + 5, newTxtPosY + 40);
 				 }
 				 
 			 }
 		}
+		/*
 		fill(255,255,255);
 		SanSerif = createFont("DIN-Regular-16.vlw", 12);
 		textFont(SanSerif);
 		text("What", 100, 100);
+		*/
 
 	}
 ////KEY INPUT
@@ -343,6 +432,11 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		 if (key == CODED) {
 		   if (keyCode == LEFT) {
 			   println("SHOW SHARING");
+			   if(isTwitterSearch){
+				   isTwitterSearch = false;
+			   } else {
+				   isTwitterSearch = true; 
+			   }
 			   isFullScreen = true;
 		   } else if (keyCode == RIGHT) {
 			   println("HIDE SHARING");

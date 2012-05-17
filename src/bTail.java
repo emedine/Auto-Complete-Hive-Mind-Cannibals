@@ -14,9 +14,6 @@ class bTail extends PApplet{
   PApplet pApp;
   BotProfile botProfile;
  
-  /// make sure graphics exist
-  PGraphics g;
-  
   int numNodes = 35; //previously 35
   Vector[] node = new Vector[numNodes];
   float angle, tx,ty;
@@ -81,7 +78,7 @@ class bTail extends PApplet{
     //draw the bot
     int fillColorMod;
     try{
-    fillColorMod = botProfile.getColor(theID);
+    fillColorMod = botProfile.getBotColor(theID);
     } catch (Exception ex){
     	fillColorMod = 255;
     }
