@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<SearchSuggestion version="2.0" xmlns="http://opensearch.org/searchsuggest2">
+<Query>why does</Query>
+<Section title="Google Suggestions">
+
+<Item>
+<Text>why does my eye twitch</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>why does hair turn gray</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>why does my dog eat poop</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>why does it hurt when i pee</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/></Item>
+<Item>
+
+<Text>why does my stomach hurt</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>why does everyone hate nickelback</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item><Item><Text>why does my eye keep twitching</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>why does god allow suffering</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>why does easter change</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+</Section>
+</SearchSuggestion>

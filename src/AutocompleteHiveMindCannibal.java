@@ -8,13 +8,13 @@ import controlP5.*;
 /* TO DO
  * make backup // done
  * do "no internet" error fix
- * do autosearch timer-- get "why does, why won't, where is, how big, how small, when will, where can, who is, how do, is there"
+ * do autosearch timer-- get "why does, why won't, where is, how big, how small, when will, where can, who is, how do, is there"  /// done
  * cycle through each iteration /// done
  * link google trends 
- * fix how color works
+ * fix how color works  /// done
  * set up twitter call for data /// not for this fork
  * do layout and instruction text /// not for this fork
- * fix fullscreen issues
+ * fix fullscreen issues  /// done
  * */
 
 
@@ -181,9 +181,6 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 			 // int tempColor = int(rnd2*255);
 			 /// set a random color in the bot profile array
 			 
-			 
-			 
-			 
 		 }
 		 //SET ALL PREY
 	}
@@ -280,49 +277,9 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		// parse for unicode
 		// theTerm = myTextfield.getText();  /// we're using the master array now, not the text field data
 		theTerm = searchTermArray[searchTermCounter].replaceAll(" ", "%20");
-		if(isTwitterSearch){
-				doTwitterThread();
-			} else {
-			// add term to search and do the json query
-			if(theTerm != null){
-				/// this calls to an external thread
-				thread("doQueryThread");
-				// doTwitterThread();
-				
-			}
-		}
 		
-	}
-	public void doTwitterThread(){
-		twitSearch = twitSearch.replaceAll(" ", "%20");
-		/// this is for user tweets
-		/// String request = "http://twitter.com/statuses/user_timeline/" + searchTerm + ".xml?count=" + String(searchLength)); /// gets particular user tweets
-		/// this is for searchterms	
-		String request = "http://search.twitter.com/search.rss?q=%23" + twitSearch;
-		String theXML[] = loadStrings(request);
-		/// PARSE XML
-		/// get rid of whitespace
-		String theXMLString = join(theXML, "").replace(">  <", "><");
-		//// get the results
-		XML xmlReturn = XML.parse(theXMLString);
-		XML resultNode = xmlReturn.getChild(0);
-		try{
-			int twitNodeMin = 6; /// first couple nodes in twitter return are useless, so uset twitnodemin to jump to good data
-			for (int i = twitNodeMin; i < numBots + twitNodeMin; i++) {
-				 XML kid = resultNode.getChild(i);
-				    /// XML subNode = kid.getChild(1);
-				 String check = kid.getContent();
-				 //// populate the entries of the autoFillArray that 
-				 /// correspond with the bot fill array
-			     theAutoFill[i - twitNodeMin] = check;
-				 println(theAutoFill[i]);
-				 // println("value1: " + resultNode.getChild(0).getContent());
-			   
-			  }
-		} catch (Exception ex){
-			println("no data: " + ex);
-			hasData = "no data";
-		}
+		thread("doQueryThread");
+		
 		
 	}
 	
@@ -410,11 +367,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 					 /// float newTxtPos = txtFldTxt.length() *8;
 					 /// remove typed text from results
 					 String tmpString = "";
-					 /*
-					 if(isTwitterSearch != true){
-						 tmpString = theAutoFill[i].replace(txtFldTxt,"");
-					 }
-					 */
+					
 					 int newTxtPosY = txtPosY + i * 15;
 					 fill(255,255,255);
 					 SanSerif = createFont("DIN-Regular-16.vlw", 12); /// font for display
@@ -424,13 +377,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 				 
 			 }
 		}
-		/*
-		fill(255,255,255);
-		SanSerif = createFont("DIN-Regular-16.vlw", 12);
-		textFont(SanSerif);
-		text("What", 100, 100);
-		*/
-
+		
 	}
 ////KEY INPUT
 	public void keyPressed() {
