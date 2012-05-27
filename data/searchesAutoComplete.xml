@@ -3,6 +3,88 @@
 <SearchSuggestion version="2.0" xmlns="http://opensearch.org/searchsuggest2">
 <Query>why does</Query>
 <Section title="Google Suggestions">
+<Categories>
+
+<Item>
+<Text>why does my eye twitch</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>why does hair turn gray</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>why does my dog eat poop</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>why does it hurt when i pee</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>why does my stomach hurt</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>why does god allow suffering</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>why does easter change</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+
+</Categories>
+
+
+<!--
+<Categories>
+
+<Item>
+<Text>when will the world end</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>wwhen will i die</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>when will i start showing</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>when will iphone be released?</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/></Item>
+<Item>
+
+<Text>when will facebook be public</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>when will timeline be mandatory</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>when will windows 8 be released</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+</Categories>
+
+<Categories>
 
 <Item>
 <Text>why does my eye twitch</Text>
@@ -46,5 +128,46 @@
 </Item>
 <Item>
 
+</Categories>
+
+<Categories>
+
+<Item>
+<Text>is there a god</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>is there a laker game tonight</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>is there life after death</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+
+<Item>
+<Text>is there a cure for herpes</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/></Item>
+<Item>
+
+<Text>is there a way to get taller</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>is there a cure for cancer</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+<Text>is there life on mars</Text>
+<Image source="/images/cleardot.gif" alt="f" width="1" height="1" align="middle"/>
+</Item>
+<Item>
+
+</Categories>
+!-->
 </Section>
 </SearchSuggestion>

@@ -56,6 +56,8 @@ public class AutocompleteHiveMindCannibal extends PApplet{
     // {"why does","why won't","where is","how big","how small","when will","where can","who is","how do","is there"}; 
     String searchTermArray[] = {"why does","why won't","where is","how big","how small","when will","where can","who is","how do","is there"}; 
     
+    
+    String xmlPath = ""; // "data/searchesAutoComplete.xml";
     /// twitter data
   	String userAddress = "@emaqdesign"; /// default user tweets
   	String userStatus = "http://twitter.com/statuses/user_timeline/" + userAddress + ".json?count=5";
@@ -81,13 +83,12 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	/// init bot manager array
 	botManager[] theBotX;
 
+	
+	/// Global settings
 	Boolean isFullScreen = false;
-	Boolean isTwitterSearch = false;
+	Boolean isOnline = true;
 	
 	int numPrey; /// this will change depending on the prey category
-	
-	
-	
 
 	public void setup() {
 		
@@ -203,7 +204,12 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 	 
 	 //// INIT MASTER ARRAY
 	 private void initMasterSearchArray(){
-		 theTerm = searchTermArray[searchTermCounter];
+		 if (isOnline == true){
+			 theTerm = searchTermArray[searchTermCounter];
+		 } else {
+			 //// 
+			 
+		 }
 		 
 	 }
 	/////////////////////////////////////
@@ -213,7 +219,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		// run a for loop and see if all the prey is eaten
 		/// if so, increment search term counter and do search
 		 int hungerCounter = 0;
-		 background(0);
+		 background(125);
 		 
 		  ///// draw the bots
 		 for (int i= 0; i<numBots; i++){
@@ -289,7 +295,17 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 
 		/// returns xml, but the flavor of returns is really good
 		// String request = "https://www.googleapis.com/complete/v1?key=AIzaSyDYnzs0NBMgIvI0otRTO-M7UvtmtdzpYxE&cx=017576662512468239146:omuauf_lfve&q=" + theTerm;
-		String request = "http://clients5.google.com/complete/search?hl=en&q=" + theTerm + "&client=ie8&inputencoding=UTF-8&outputencoding=hjson";
+		String request;
+		// if online, do a real query
+		if (isOnline){
+			request = "http://clients5.google.com/complete/search?hl=en&q=" + theTerm + "&client=ie8&inputencoding=UTF-8&outputencoding=hjson";
+		
+		} else {
+			request = xmlPath;
+			
+		}
+		
+		/// if not, parse the xml file
 		String theXML[] = loadStrings(request);
 
 		/// PARSE XML
@@ -298,19 +314,30 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		try{
 			//// get the results
 			xml = XML.parse(theXMLString);
-			XML resultNode = xml.getChild(1);
+			XML resultNode = xml.getChild(1); /// use 1 if live, use counter if we're not live
 			int numResults = resultNode.getChildCount();
 			println("numSites: " + numResults);
-			println("name: " +resultNode.getName());
+			// println("name: " +resultNode.getName());
 			hasData = "data yes! " + resultNode.getName();
+			// println("resultnode get name: " + resultNode.getName());
 			for (int i = 0; i < 5; i++) {
-			    XML kid = resultNode.getChild(i);
-			    /// XML subNode = kid.getChild(1);
-			    String check = kid.getContent();
+			    XML kid;
+			    XML subNode;
+			    
+			    if(isOnline){
+			    	kid = resultNode.getChild(i);
+			    	subNode = kid; // online
+			    } else {
+			    	kid = resultNode.getChild(searchTermCounter + 1);
+			    	subNode = kid.getChild(i); //  offline
+			    	
+			    }
+			    // print("subNode: " + subNode);
+			    String nodeValue = subNode.getContent();
 			    // String url = kid.getString("query");
 			    // String site = kid.getContent();
-			    println(i + " : " + check + " : ");
-			    theAutoFill[i] = check;
+			    print("category: " + nodeValue);
+			    theAutoFill[i] = nodeValue;
 				if(theAutoFill[i] != null){
 					println("NAME: " + theAutoFill[i]);
 				}
@@ -385,12 +412,7 @@ public class AutocompleteHiveMindCannibal extends PApplet{
 		/// myTextfield.setText(hasData);
 		 if (key == CODED) {
 		   if (keyCode == LEFT) {
-			   println("SHOW SHARING");
-			   if(isTwitterSearch){
-				   isTwitterSearch = false;
-			   } else {
-				   isTwitterSearch = true; 
-			   }
+			   
 			   isFullScreen = true;
 		   } else if (keyCode == RIGHT) {
 			   println("HIDE SHARING");
